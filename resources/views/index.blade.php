@@ -1,7 +1,7 @@
 @extends('layout')
 @section('title', 'الصفحة الرئيسية') 
 
-@section('container')
+{{-- @section('container')
 <div class="headerhome-content">
     <div class="allthem">
         <div class="them">
@@ -14,7 +14,7 @@
         <a href="{{ route('offers.index') }}" class="ordernow">جميع العروض</a>
     </div>
 </div>
-@endsection 
+@endsection  --}}
 
 @section('content')
 <div style="background-color: #000000;">
