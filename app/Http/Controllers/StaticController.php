@@ -14,7 +14,9 @@ class StaticController extends Controller
         return view('about');
     }
 
-
+    function request_sent() {
+            return view('request-sent');
+        }
     
 
     /* function email_form() {

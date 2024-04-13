@@ -4,8 +4,14 @@
 
 @section('content')
 <div class="alert alert-success">
-    <b> تم إرسال طلبكم بنجاح </b>
+    @if(Session::has('message'))
+        <div class="alert alert-success">
+            {{ Session::get('message') }}
+        </div>
+    @endif
     <p>
-        لقد تم إرسال طلبكم بنجاح، للمزيد من المعلومات المرجو مراسلتنا على البريد الالكتروني info[@]elmanassik.com		</p>
+        لقد تم إرسال طلبكم بنجاح، للمزيد من المعلومات المرجو مراسلتنا على البريد الالكتروني xxx@xxx.com		
+    </p>
+    <a class="btn btn-link" href="{{ route('offers.index') }}">العودة للعروض</a>
 </div>
 @endsection

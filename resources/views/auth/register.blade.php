@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary btn-auth">تسجيل</button>
+                        <button id="liveAlertBtn" type="submit" class="btn btn-primary btn-auth">تسجيل</button>
                     </div>
                     </form>
                     <div class="text-center">

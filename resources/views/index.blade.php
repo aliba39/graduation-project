@@ -2,6 +2,7 @@
 @section('title', 'الصفحة الرئيسية') 
 
 @section('container')
+
 <div class="headerhome-content">
     <div class="allthem">
         <div class="them">
@@ -17,6 +18,11 @@
 @endsection 
 
 @section('content')
+@if(Session::has('message'))
+        <div class="alert alert-success">
+            {{ Session::get('message') }}
+        </div>
+    @endif
 <div style="background-color: #000000;">
 <section class="offers-and-abouts">
     <div class="about-umrah-travel sectionp">

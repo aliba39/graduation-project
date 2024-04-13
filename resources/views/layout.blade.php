@@ -131,20 +131,8 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('home.about') }}">دليل العمرة</a>
                                 </li>
-                                @if(Route::has('login'))
-                                    @auth
-                                        @if (Auth::user()->utype === 'ADM')
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('offers.create') }}">اضافة عرض</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('reservations.index') }}">قائمة الطلبات</a>
-                                        </li> 
-                                        @endif
-                                    @endauth
-                                @endif
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('home.contact') }}">اتصل بنا</a> 
+                                    <a class="nav-link" href="{{ route('contacts.create') }}">اتصل بنا</a> 
                                 </li>
                             </ul>
                             <!-- Center-aligned items -->
@@ -156,13 +144,24 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <a class="dropdown-item" href="{{ route('login') }}">تسجيل الدخول</a>
-                                            <a class="dropdown-item" href="{{ route('register') }}">التسجيل</a>
+                                            <a class="dropdown-item" href="{{ route('register') }}">اٍنشاء حساب جديد</a>
                                         </div>
                                     @else
                                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             {{ Auth::user()->name }} <i class="fa-light fa-user"></i>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            @if(Route::has('login'))
+                                                @auth
+                                                    @if (Auth::user()->utype === 'ADM')
+                                                        <a class="nav-link" href="{{ route('offers.create') }}">اضافة عرض</a>
+                                                        <a class="nav-link" href="{{ route('reservations.index') }}">قائمة الطلبات</a>
+                                                        <a class="nav-link" href="{{ route('admin.index') }}">صفحتي</a>
+                                                    @else
+                                                        <a class="nav-link" href="{{ route('users.index') }}">صفحتي</a>
+                                                    @endif
+                                                @endauth
+                                            @endif
                                             <a class="dropdown-item no-underline hover:underline" href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
@@ -215,13 +214,66 @@
             </footer>
             <!--End Footer -->
         </div>    
-          
+        <script src="{{ asset('js/app.css') }}"></script>
         <!-- Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <!-- Font Awesome -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+{{-- <script type="text/javascript">
+	$(function(){
+		$('#register').click(function(){
+            Swal.fire({
+								'title': 'Successful',
+								'text': data,
+								'type': 'success'
+								})
+        });
+    });
+			/* var valid = this.form.checkValidity();
+
+			if(valid){
+
+
+			var name 	= $('#name').val();
+			var email 		= $('#email').val();
+			var password 	= $('#password').val();
+            var password_confirmation 	= $('#password_confirmation').val();
+
+
+				e.preventDefault();	
+
+				$.ajax({
+					type: 'POST',
+					url: 'process.php',
+					data: {firstname: firstname,lastname: lastname,email: email,phonenumber: phonenumber,password: password},
+					success: function(data){
+					Swal.fire({
+								'title': 'Successful',
+								'text': data,
+								'type': 'success'
+								})
+							
+					},
+					error: function(data){
+						Swal.fire({
+								'title': 'Errors',
+								'text': 'There were errors while saving the data.',
+								'type': 'error'
+								})
+					}
+				});
+			}else{
+
+			}
+		});		
+	}); */
+	
+</script> --}}
     </body>
 </html>
  

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
+use Illuminate\Support\Facades\Session;
 
 class ReservationsController extends Controller
 {
@@ -34,11 +35,12 @@ class ReservationsController extends Controller
         $reservation->passport = strip_tags($request->input('passport')); 
         $reservation->user_id = auth()->user()->id;
 
+        Session::flash('message', 'تم إرسال طلبكم بنجاح ');
 
 
         $reservation -> save();
         
-        return redirect()->route('offers.index');
+        return redirect('request-sent');
     }
 /*--------------------------------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------------------------------*/

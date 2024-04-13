@@ -19,7 +19,9 @@ h1 {
 }
 
 a {
-    background-color: transparent
+    background-color: transparent;
+    cursor: pointer;
+    text-decoration: none !important;
 }
 
 body {
@@ -536,7 +538,6 @@ body.rtl {
 
 .offers {
     display: flex;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px;

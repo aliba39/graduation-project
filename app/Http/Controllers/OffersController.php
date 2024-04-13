@@ -43,8 +43,6 @@ class OffersController extends Controller
         return redirect()->route('offers.index');
     }
 
-
-
     //-----------------------------------------------------------------
     public function show($offer)
     {

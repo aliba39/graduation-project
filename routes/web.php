@@ -6,16 +6,16 @@ use  App\Http\Controllers\OffersController;
 use App\Http\Controllers\ReservationsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactsController;
 
 /*use App\Http\Controllers\EmailController;
 use  App\Http\Controllers\ReportsController;
 */
 
 Route::get('/', [StaticController::class, 'index'] )->name('home.index') ;
+Route::get('/request-sent', [StaticController::class, 'request_sent'] )->name('home.request-sent')->middleware('redirectIfDirectAccess') ;
 Route::get('/about', [StaticController::class, 'about'] )->name('home.about')->middleware('redirectIfDirectAccess');
-Route::get('/contact', [ContactController::class, 'contact'] )->name('home.contact')->middleware('redirectIfDirectAccess');
-Route::post('contact', [ContactController::class, 'send'])->name('contact.send')->middleware('redirectIfDirectAccess');
+Route::resource('contacts', ContactsController::class );
 Route::resource('offers', OffersController::class )->middleware('redirectIfDirectAccess');
 Route::resource('reservations', ReservationsController::class )->middleware('redirectIfDirectAccess');
 
