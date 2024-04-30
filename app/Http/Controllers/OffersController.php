@@ -37,10 +37,11 @@ class OffersController extends Controller
         $offer->date_out = strip_tags($request->input('date_out')); 
         $offer->airport_1= strip_tags($request->input('airport_1')); 
         $offer->airport_2 = strip_tags($request->input('airport_2'));
+        
 
         $offer -> save();
         
-        return redirect()->route('offers.index');
+        return redirect()->route('offers.index')->with('success', 'offer created successfully!');
     }
 
     //-----------------------------------------------------------------

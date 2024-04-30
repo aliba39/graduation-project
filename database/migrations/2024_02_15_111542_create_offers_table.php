@@ -25,6 +25,7 @@ class CreateOffersTable extends Migration
             $table->String('airport_1');
             $table->String('airport_2');
             $table->timestamps();
+            
         });
     }
     public function down()

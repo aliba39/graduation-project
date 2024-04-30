@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Offer extends Model
 {
     use HasFactory;
+
+    public function reservations() {
+        return $this->hasMany(reservation::class, 'offer_id');
+    }
 }

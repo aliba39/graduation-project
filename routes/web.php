@@ -7,6 +7,7 @@ use App\Http\Controllers\ReservationsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\StripeController;
 
 /*use App\Http\Controllers\EmailController;
 use  App\Http\Controllers\ReportsController;
@@ -33,3 +34,8 @@ Route::post('/send-email', [EmailController::class, 'sendEmail'])->name('send.em
 Auth::routes();
 
 /* Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); */
+/* Route::post('/fake-payment', [FakePaymentController::class, 'processPayment']);*/
+
+Route::get('/checkout', 'App\Http\Controllers\StripeController@checkout')->name('checkout');
+Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
+Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');

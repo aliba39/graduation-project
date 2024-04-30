@@ -103,7 +103,7 @@
                         .dark\:text-gray-500{--tw-text-opacity:1;color:#6b7280;color:rgba(107,114,128,var(--tw-text-opacity))}
                     }
         </style>
-        <link rel="stylesheet" href="{{ url('css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     </head>
     <body class="antialiased">
         <div class="home">
@@ -158,7 +158,7 @@
                                                         <a class="nav-link" href="{{ route('reservations.index') }}">قائمة الطلبات</a>
                                                         <a class="nav-link" href="{{ route('admin.index') }}">صفحتي</a>
                                                     @else
-                                                        <a class="nav-link" href="{{ route('users.index') }}">صفحتي</a>
+                                                        <a class="nav-link" href="{{ route('user.index') }}">صفحتي</a>
                                                     @endif
                                                 @endauth
                                             @endif
@@ -214,7 +214,7 @@
             </footer>
             <!--End Footer -->
         </div>    
-        <script src="{{ asset('js/app.css') }}"></script>
+        <script src="{{ asset('./js/script.js') }}"></script>
         <!-- Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
@@ -224,56 +224,64 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
-{{-- <script type="text/javascript">
-	$(function(){
-		$('#register').click(function(){
-            Swal.fire({
-								'title': 'Successful',
-								'text': data,
-								'type': 'success'
-								})
+        
+
+
+{{-- <script>
+
+document.getElementById('approveBtn').addEventListener('click', function() {
+    // Create a new page content
+    var pageContent = `
+        <h1>Welcome to My Page</h1>
+        <p>This is some content of the page...</p>
+        <p>Feel free to add any content you like!</p>
+    `;
+
+    // Get the content container
+    var contentContainer = document.getElementById('contentContainer');
+
+    // Replace the content with the new page content
+    contentContainer.innerHTML = pageContent;
+});
+
+document.getElementById('rejectBtn').addEventListener('click', function() {
+    // Create a new page content
+    var pageContent = `
+        <h1>Welcome to My Page 2</h1>
+        <p>This is some content of the page...</p>
+        <p>Feel free to add any content you like!</p>
+    `;
+
+    // Get the content container
+    var contentContainer = document.getElementById('contentContainer');
+
+    // Replace the content with the new page content
+    contentContainer.innerHTML = pageContent;
+});
+
+document.getElementById('imageInput').addEventListener('change', function(event) {
+    var file = event.target.files[0];
+    var downloadButton = document.getElementById('downloadButton');
+    
+    if (file && file.type.startsWith('image/')) {
+        downloadButton.disabled = false;
+        downloadButton.addEventListener('click', function() {
+            var imageUrl = URL.createObjectURL(file);
+            var a = document.createElement('a');
+            a.href = imageUrl;
+            a.download = 'image.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(imageUrl);
         });
-    });
-			/* var valid = this.form.checkValidity();
-
-			if(valid){
-
-
-			var name 	= $('#name').val();
-			var email 		= $('#email').val();
-			var password 	= $('#password').val();
-            var password_confirmation 	= $('#password_confirmation').val();
-
-
-				e.preventDefault();	
-
-				$.ajax({
-					type: 'POST',
-					url: 'process.php',
-					data: {firstname: firstname,lastname: lastname,email: email,phonenumber: phonenumber,password: password},
-					success: function(data){
-					Swal.fire({
-								'title': 'Successful',
-								'text': data,
-								'type': 'success'
-								})
-							
-					},
-					error: function(data){
-						Swal.fire({
-								'title': 'Errors',
-								'text': 'There were errors while saving the data.',
-								'type': 'error'
-								})
-					}
-				});
-			}else{
-
-			}
-		});		
-	}); */
-	
+    } else {
+        downloadButton.disabled = true;
+        alert('Please select an image file.');
+    }
+});
 </script> --}}
+
     </body>
 </html>
  

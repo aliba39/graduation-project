@@ -227,6 +227,7 @@
 				@else
 					<a href="{{ route('register') }}" class="btn btn_reservation"> للحجز عليك التسجيل !! </a>
 				@endif
+					
 			</div>
 		</div>
 	</div>

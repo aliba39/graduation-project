@@ -12,7 +12,7 @@ class Reservations extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('family_name');
-            $table->Integer('phone_number');
+            $table->string('phone_number', 10)->nullable();
             $table->string('address');
             $table->string('city');
             $table->string('country');
@@ -22,7 +22,8 @@ class Reservations extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('user_id'); 
             $table->foreign('user_id')->references('id')->on('users');
-            
+            $table->unsignedBigInteger('offer_id'); 
+            $table->foreign('offer_id')->references('id')->on('offers'); 
         });
     }
 

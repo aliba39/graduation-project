@@ -6,3 +6,4 @@ button.addEventListener('click', function() {
     // Code to send a message
     alert('Message sent!');
 });
+
