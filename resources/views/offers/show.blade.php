@@ -223,11 +223,10 @@
 					
 				</div>
 				@if(auth::check())
-					<a href="{{ route('reservations.create') }}" class="btn btn_reservation"> احجز الآن</a>
+				<a href="{{ route('reservations.create', ['offer_id' => $offer->id]) }}" class="btn btn-primary">احجز الآن</a>
 				@else
 					<a href="{{ route('register') }}" class="btn btn_reservation"> للحجز عليك التسجيل !! </a>
 				@endif
-					
 			</div>
 		</div>
 	</div>

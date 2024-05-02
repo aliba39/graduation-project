@@ -21,6 +21,23 @@ class OffersController extends Controller
     //-----------------------------------------------------------------
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'prix_12' => 'nullable|numeric',
+            'prix_13' => 'nullable|numeric',
+            'prix_14' => 'nullable|numeric',
+            'hotel_1' => 'required|string|max:255',
+            'hotel_2' => 'nullable|string|max:255',
+            'discription' => 'required|string',
+            'image' => 'nullable|image|max:2048', 
+            'stay_makh' => 'nullable|string|max:255',
+            'stay_madina' => 'nullable|string|max:255',
+            'date_in' => 'required|date',
+            'date_out' => 'required|date',
+            'airport_1' => 'required|string|max:255',
+            'airport_2' => 'nullable|string|max:255',
+        ]);
+
         $offer = new offer();
 
         $offer->title = strip_tags($request->input('title')); 
@@ -57,6 +74,22 @@ class OffersController extends Controller
     //-----------------------------------------------------------------
     public function update(Request $request, $offer)
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'prix_12' => 'nullable|numeric',
+            'prix_13' => 'nullable|numeric',
+            'prix_14' => 'nullable|numeric',
+            'hotel_1' => 'required|string|max:255',
+            'hotel_2' => 'nullable|string|max:255',
+            'discription' => 'required|string',
+            'image' => 'nullable|image|max:2048', // التحقق من الصور
+            'stay_makh' => 'nullable|string|max:255',
+            'stay_madina' => 'nullable|string|max:255',
+            'date_in' => 'required|date',
+            'date_out' => 'required|date',
+            'airport_1' => 'required|string|max:255',
+            'airport_2' => 'nullable|string|max:255',
+        ]);
 
         $to_update = offer::findOrFail($offer);
 
@@ -77,7 +110,7 @@ class OffersController extends Controller
 
         $to_update -> save();
         
-        return redirect()->route('offers.show', $offer); 
+        return redirect()->route('offers.index', $offer); 
     }
     //-----------------------------------------------------------------
     public function destroy($id)

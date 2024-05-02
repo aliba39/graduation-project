@@ -19,6 +19,7 @@ Route::get('/about', [StaticController::class, 'about'] )->name('home.about')->m
 Route::resource('contacts', ContactsController::class );
 Route::resource('offers', OffersController::class )->middleware('redirectIfDirectAccess');
 Route::resource('reservations', ReservationsController::class )->middleware('redirectIfDirectAccess');
+Route::get('/reservations/download/{imagePath}', [ReservationsController::class, 'downloadImage'])->name('reservations.downloadImage');
 
 Route::middleware('auth')->group(function(){
     Route::get('/my-account',[UserController::class,'index'])->name('user.index');

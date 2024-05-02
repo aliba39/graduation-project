@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                                 <span>
-                                    ابتداء من                                        <i class="theme-clr">{{ $offer['prix']}}</i>
+                                    ابتداء من                                        <i class="theme-clr">{{ $offer['prix_12']}}</i>
                                 </span>
                             </div>
                         </div>

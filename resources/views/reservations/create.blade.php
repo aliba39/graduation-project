@@ -3,7 +3,7 @@
 @section('title', 'حجز العرض')
 <div class="form-container">
 
-   <form action="{{route('reservations.store')}}" method="POST" >
+   <form action="{{route('reservations.store')}}" method="POST" enctype="multipart/form-data" >
       @csrf
       @method('POST')
       
@@ -17,6 +17,7 @@
       <input type="text" name="city" required placeholder="المدينة">
       <input type="text" name="country" required placeholder="البلد">      
       <input type="number" name="number_people" required placeholder="عدد الاشخاص">
+      <input type="hidden" name="offer_id" value="{{ $offer_id }}"> 
       <div class="note">
       <label for="pet-select">اختار نوع العرض</label>
          <select id="pet-select" class="mt-2">
@@ -27,17 +28,15 @@
             
          </select>
       </div>
-      {{-- <div class="note">
-         <label  class="btn-file" for="passport">
-            <span>جواز السفر</span> 
-            <input id="passport" name="passport" type="file" class="hidden">
-         </label>
-      </div> --}}
-      <input type="file" id="imageInput1" accept="image/*">
-    
-
-    <input type="file" id="imageInput2" accept="image/*">
-    
+      <div>
+         <label for="photo">Upload passport:</label>
+         <input type="file" name="passport" {{-- accept="image/*" --}}>
+      </div>
+      <div>
+         <label for="photo">Upload birth_certificate:</label>
+         <input type="file" name="birth_certificate" {{-- accept="image/*" --}}>
+      </div>
+        
       <input type="submit" name="submit" value="ارسال" class="form-btn">
       <div class="note">
          <p>الدفع عندما يتم قبولكم!</p>

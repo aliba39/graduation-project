@@ -10,22 +10,21 @@ class CreateOffersTable extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->String('title');
-            $table->integer('prix_12');
-            $table->integer('prix_13');
-            $table->integer('prix_14');
-            $table->String('hotel_1');
-            $table->String('hotel_2');
-            $table->String('discription');
-            $table->String('image');
-            $table->String('stay_makh');
-            $table->String('stay_madina');
-            $table->String('date_in');
-            $table->String('date_out');
-            $table->String('airport_1');
-            $table->String('airport_2');
+            $table->string('title', 255); 
+            $table->integer('prix_12')->nullable();
+            $table->integer('prix_13')->nullable();
+            $table->integer('prix_14')->nullable();
+            $table->string('hotel_1', 255)->nullable();
+            $table->string('hotel_2', 255)->nullable(); 
+            $table->string('discription', 1024); 
+            $table->string('image', 255)->nullable(); 
+            $table->string('stay_makh', 255);
+            $table->string('stay_madina', 255);
+            $table->date('date_in'); 
+            $table->date('date_out');
+            $table->string('airport_1', 255);
+            $table->string('airport_2', 255)->nullable(); 
             $table->timestamps();
-            
         });
     }
     public function down()

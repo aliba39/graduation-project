@@ -1,35 +1,84 @@
 @extends('layout')
 @section('content')
 @section('title', 'تفاصيل الطلب')
-<div class="flex justify-center items-center bg-gray-100 border-gray-200" style="flex-direction: column;">
-    <div class="flex justify-center sm:pt-0" style="color: rgb(252, 175, 44);">
-        <h1>تفاصيل الطلب</h1>
-    </div>
+<div class="container mt-5">
+    <h2>تفاصيل الحجز</h2> 
 
-    <div class="info">
-        <h3><strong>الاسم الشخصي : </strong>{{ $reservation['first_name']}}</h3>
-        <h3><strong>الاسم العائلي : </strong>{{ $reservation['family_name']}}</h3>
-        <h3><strong>رقم الهاتف : </strong>{{ $reservation['phone_number']}}</h3>
-        <h3><strong>البريد الالكتروني : </strong>{{$reservation->user->email}}</h3>
-        <h3><strong>العنوان  : </strong>{{ $reservation['address']}}</h3>
-        <h3><strong>المدينة  : </strong>{{ $reservation['city']}}</h3>
-        <h3><strong>البلد  : </strong>{{ $reservation['country']}}</h3>
-        <h3><strong>عدد الاشخاص : </strong>{{ $reservation['number_people']}}</h3>
-        <h3><strong>العنوان  : </strong>{{ $reservation->offer->title }}</h3>
+    <table class="table table-bordered"> 
+        <tbody>
+            <tr>
+                <th>الاسم الأول</th>
+                <td>{{ $reservation->first_name }}</td>
+            </tr>
+            <tr>
+                <th>الاسم العائلي</th>
+                <td>{{ $reservation->family_name }}</td>
+            </tr>
+            <tr>
+                <th>رقم الهاتف</th>
+                <td>{{ $reservation->phone_number }}</td>
+            </tr>
+            <tr>
+                <th>العنوان</th>
+                <td>{{ $reservation->address }}</td>
+            </tr>
+            <tr>
+                <th>المدينة</th>
+                <td>{{ $reservation->city }}</td>
+            </tr>
+            <tr>
+                <th>البلد</th>
+                <td>{{ $reservation->country }}</td>
+            </tr>
+            <tr>
+                <th>عدد الأشخاص</th>
+                <td>{{ $reservation->number_people }}</td>
+            </tr>
+            <tr>
+                <th>شهادة الميلاد</th>
+                <td>
+                    @if($reservation->birth_certificate)
+                        <a class="btn btn-secondary" href="{{ Storage::url($reservation->birth_certificate) }}" target="_blank">عرض</a> 
+                    @else
+                        لم يتم رفع شهادة ميلاد
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <th>جواز السفر</th>
+                <td>
+                    @if($reservation->passport)
+                        <a class="btn btn-secondary" href="{{ Storage::url($reservation->passport) }}" target="_blank">عرض</a>  
+                    @else
+                        لم يتم رفع جواز سفر
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <th>تاريخ الإنشاء</th>
+                <td>{{ $reservation->created_at->format('Y-m-d H:i:s') }}</td> 
+            </tr>
+        </tbody>
+    </table>
+    <div class="flex justify-center ">
+        <div class="mt-8">
+            <button id="approveBtn" type="button" class="btn btn-secondary" href="">الموافقة</button>
+            <button id="rejectBtn" type="button" class="btn btn-secondary" href="">الرفض</button>
+        </div>
+        <div id="contentContainer"></div>
     </div>
-    {{-- <div class="images">
-        <img class="img" src="../images/{{ $reservation['birth_certificate']}}" alt="شهادة ميلاد"> 
-        <img class="img" src="../images/{{ $reservation['passport']}}" alt="جواز سفر">
-    </div> --}}
-    <button id="downloadButton1" disabled>Download Image 1</button>
-    <button id="downloadButton2" disabled>Download Image 2</button>
-    <div class="flex mt-8">
-        <button id="approveBtn" class="btn-sub" href="">الموافقة</button>
-        <button id="rejectBtn" class="btn-sub" href="">الرفض</button>
-    </div>
-    <div id="contentContainer"></div>
-    
 </div>
+@if ($reservation->offer) <!-- تحقق من وجود علاقة -->
+    <h3>تفاصيل العرض</h3>
+    <p>عنوان العرض: {{ $reservation->offer->title }}</p>
+    <p>سعر العرض 12: {{ $reservation->offer->prix_12 }}</p>
+    <p>سعر العرض 13: {{ $reservation->offer->prix_13 }}</p>
+    <!-- معلومات أخرى من العرض -->
+@else
+    <p>لا يوجد عرض مرتبط بهذا الحجز</p>
+@endif
+
+
 {{-- <script>
     $(document).ready(function(){
         $('#approveBtn').click(function(){
@@ -87,27 +136,6 @@ document.getElementById('rejectBtn').addEventListener('click', function() {
     contentContainer.innerHTML = pageContent;
 });
 
-document.getElementById('imageInput').addEventListener('change', function(event) {
-    var file = event.target.files[0];
-    var downloadButton = document.getElementById('downloadButton');
-    
-    if (file && file.type.startsWith('image/')) {
-        downloadButton.disabled = false;
-        downloadButton.addEventListener('click', function() {
-            var imageUrl = URL.createObjectURL(file);
-            var a = document.createElement('a');
-            a.href = imageUrl;
-            a.download = 'image.png';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(imageUrl);
-        });
-    } else {
-        downloadButton.disabled = true;
-        alert('Please select an image file.');
-    }
-});
 </script> --}}
 
 @endsection

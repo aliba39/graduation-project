@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
-use App\Models\Offer;
 use Illuminate\Support\Facades\Session;
 
 class ReservationsController extends Controller
@@ -15,9 +14,14 @@ class ReservationsController extends Controller
     }
 /*--------------------------------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------------------------------*/
-    public function create()
+    public function create(Request $request)
     {
-        return view('reservations.create');
+        $offer_id = $request->query('offer_id'); 
+
+        return view('reservations.create', [
+            'offer_id' => $offer_id, 
+        ]);
+        
     }
 /*--------------------------------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------------------------------*/
@@ -31,19 +35,13 @@ class ReservationsController extends Controller
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'number_people' => 'required|integer',
-            'birth_certificate' => 'nullable|string|max:255',
-            'passport' => 'nullable|string|max:255',
-            'offer_id' => 'required|integer|exists:offers,id',  
+            'birth_certificate' => 'nullable|image|max:2048',
+            'passport' => 'nullable|image|max:2048',
+            'offer_id' => 'required|exists:offers,id', 
         ]);
 
-        $offer = Offer::find(1); // This example assumes you're setting the first offer as default
-
-        if (!$offer) {
-            // Handle the case where the offer doesn't exist
-            return redirect()->back()->withErrors(['error' => 'Offer not found.']);
-        } 
         $reservation = new reservation();
-
+        
         $reservation->first_name = strip_tags($request->input('first_name')); 
         $reservation->family_name = strip_tags($request->input('family_name')); 
         $reservation->phone_number = strip_tags($request->input('phone_number')); 
@@ -51,24 +49,30 @@ class ReservationsController extends Controller
         $reservation->city = strip_tags($request->input('city')); 
         $reservation->country = strip_tags($request->input('country')); 
         $reservation->number_people = strip_tags($request->input('number_people')); 
-        $reservation->birth_certificate = strip_tags($request->input('birth_certificate')); 
-        $reservation->passport = strip_tags($request->input('passport')); 
-        $reservation->user_id = auth()->user()->id;
-        /* $reservation->offer_id = (int)strip_tags($request->input('offer_id'));  */
-        // Set the offer_id from the retrieved offer
-        $reservation->offer_id = $offer->id;  
-        Session::flash('message', 'تم إرسال طلبكم بنجاح ');
 
+        if ($request->hasFile('birth_certificate')) {
+            $path = $request->file('birth_certificate')->store('images', 'public'); 
+            $reservation->birth_certificate = $path;
+        } 
+        
+        if ($request->hasFile('passport')) {
+            $path = $request->file('passport')->store('images', 'public'); 
+            $reservation->passport = $path;
+        }
+        $reservation->offer_id = $request->input('offer_id'); 
+
+        $reservation->user_id = auth()->user()->id;
 
         $reservation -> save();
-        
-        return redirect('request-sent'); 
-    }
+
+        Session::flash('message', 'تم إرسال طلبكم بنجاح ');
+
+        return redirect('request-sent'/* , $reservation->id */)->with('success', 'تم إنشاء الحجز بنجاح'); 
+    } 
 /*--------------------------------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------------------------------*/
     public function show($reservation)
     {
-        /* $reservation = Reservation::with('offer')->findOrFail($reservation); */
         return view('reservations.show', ['reservation' => reservation::findOrFail($reservation)]);
     }
 /*--------------------------------------------------------------------------------------------------*/
