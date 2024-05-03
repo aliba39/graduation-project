@@ -6,6 +6,7 @@
         <link rel="icon" href="https://scontent.fogx1-1.fna.fbcdn.net/v/t39.30808-6/316541285_129037063300324_5412570035277399260_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8-66ZkO-m70Ab7gEt1_&_nc_ht=scontent.fogx1-1.fna&oh=00_AfBGFRkgfXgI6izbAMKeH172p_Fv5xh8NeQNS_8BxughUg&oe=66152935">
         <title>@yield('title')</title>
         <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-rtl@3.4.0/dist/css/bootstrap-rtl.min.css">
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">

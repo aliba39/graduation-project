@@ -24,7 +24,7 @@
                     <div class="cause-box ">
                         <div class="cause-thmb">
                             <a  href="{{route('offers.show', ['offer' => $offer['id']])}}" title="" itemprop="url">
-                                <img src="../images/{{ $offer['image']}}" class="image-hajj">
+                                <img src="{{ $offer['image']}}" class="image-hajj">
                             </a>
                         </div>
                         <div class="cause-inf">
@@ -34,7 +34,7 @@
                             <ul class="pst-mta">
                                 <li><i class="far fa-calendar-alt theme-clr"></i> السعر يشمل :</li>
                             </ul>
-                            <p>{{ $offer['discription']}}</p>
+                            <p>{{ $offer['description']}}</p>
                             <div class="prg-wrp">
                                 <div class="progress brd-rd5">
                                     <div class="progress-bar w100 theme-bg">
@@ -51,11 +51,11 @@
                         @auth
                             @if (Auth::user()->utype === 'ADM')
                                 <div class="tools">
-                                    <a class="edit" href="{{route('offers.edit', $offer->id)}}" class="edi-btn">تعديل</a>
+                                    <a class="btn btn-secondary" href="{{route('offers.edit', $offer->id)}}">تعديل</a>
                                     <form action="{{route('offers.destroy', $offer->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <input class="tool_btn" type="submit" value="حذف">
+                                        <input class="btn btn-danger" type="submit" value="حذف">
                                     </form>
                                 </div>
                             @endif

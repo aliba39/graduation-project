@@ -9,8 +9,7 @@ class Offer extends Model
 {
     use HasFactory;
 
-    public function reservations()
-    {
-        return $this->hasMany(Reservation::class, 'offer_id');
+    public function reservations() {
+        return $this->hasMany(reservation::class, 'offer_id');
     }
 }

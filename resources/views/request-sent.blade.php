@@ -12,6 +12,7 @@
     <p>
         لقد تم إرسال طلبكم بنجاح، للمزيد من المعلومات المرجو مراسلتنا على البريد الالكتروني xxx@xxx.com		
     </p>
-    <a class="btn btn-link" href="{{ route('offers.index') }}">العودة للعروض</a>
+    <a class="btn btn-info" href="{{ route('offers.index') }}">العودة للعروض</a>
+    {{-- <a class="btn btn-warning" href="{{route('reservations.edit', $reservation->id)}}">التعديل على عرضك</a> --}}
 </div>
 @endsection

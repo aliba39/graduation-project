@@ -28,7 +28,7 @@ class OffersController extends Controller
             'prix_14' => 'nullable|numeric',
             'hotel_1' => 'required|string|max:255',
             'hotel_2' => 'nullable|string|max:255',
-            'discription' => 'required|string',
+            'description' => 'required|string',
             'image' => 'nullable|image|max:2048', 
             'stay_makh' => 'nullable|string|max:255',
             'stay_madina' => 'nullable|string|max:255',
@@ -46,8 +46,12 @@ class OffersController extends Controller
         $offer->prix_14 = strip_tags($request->input('prix_14')); 
         $offer->hotel_1 = strip_tags($request->input('hotel_1')); 
         $offer->hotel_2 = strip_tags($request->input('hotel_2')); 
-        $offer->discription = strip_tags($request->input('discription')); 
-        $offer->image = strip_tags($request->input('image')); 
+        $offer->description = strip_tags($request->input('description')); 
+        if ($request->hasFile('image')) {
+            $originalName = $request->file('image')->getClientOriginalName(); // الحصول على الاسم الأصلي
+            $path = $request->file('image')->storeAs('images', $originalName, 'public'); // تخزين باسم محدد
+            $offer->image = $path; // تخزين المسار في قاعدة البيانات
+        }
         $offer->stay_makh = strip_tags($request->input('stay_makh')); 
         $offer->stay_madina = strip_tags($request->input('stay_madina')); 
         $offer->date_in = strip_tags($request->input('date_in')); 
@@ -56,9 +60,9 @@ class OffersController extends Controller
         $offer->airport_2 = strip_tags($request->input('airport_2'));
         
 
-        $offer -> save();
+        $offer->save();
         
-        return redirect()->route('offers.index')->with('success', 'offer created successfully!');
+        return redirect()->route('offers.index');
     }
 
     //-----------------------------------------------------------------
@@ -81,15 +85,15 @@ class OffersController extends Controller
             'prix_14' => 'nullable|numeric',
             'hotel_1' => 'required|string|max:255',
             'hotel_2' => 'nullable|string|max:255',
-            'discription' => 'required|string',
-            'image' => 'nullable|image|max:2048', // التحقق من الصور
+            'description' => 'required|string',
+            'image' => 'nullable|image|max:2048', 
             'stay_makh' => 'nullable|string|max:255',
             'stay_madina' => 'nullable|string|max:255',
             'date_in' => 'required|date',
             'date_out' => 'required|date',
             'airport_1' => 'required|string|max:255',
             'airport_2' => 'nullable|string|max:255',
-        ]);
+        ]); 
 
         $to_update = offer::findOrFail($offer);
 
@@ -99,8 +103,12 @@ class OffersController extends Controller
         $to_update->prix_14 = strip_tags($request->input('prix_14')); 
         $to_update->hotel_1 = strip_tags($request->input('hotel_1')); 
         $to_update->hotel_2 = strip_tags($request->input('hotel_2')); 
-        $to_update->discription = strip_tags($request->input('discription')); 
-        $to_update->image = strip_tags($request->input('image')); 
+        $to_update->description = strip_tags($request->input('description')); 
+        if ($request->hasFile('image')) {
+            $originalName = $request->file('image')->getClientOriginalName(); 
+            $path = $request->file('image')->storeAs('images', $originalName, 'public'); 
+            $to_update->image = $path; 
+        }
         $to_update->stay_makh = strip_tags($request->input('stay_makh')); 
         $to_update->stay_madina = strip_tags($request->input('stay_madina')); 
         $to_update->date_in = strip_tags($request->input('date_in')); 
@@ -108,12 +116,12 @@ class OffersController extends Controller
         $to_update->airport_1= strip_tags($request->input('airport_1')); 
         $to_update->airport_2 = strip_tags($request->input('airport_2'));
 
-        $to_update -> save();
+        $to_update->save();
         
         return redirect()->route('offers.index', $offer); 
     }
     //-----------------------------------------------------------------
-    public function destroy($id)
+    public function destroy($offer)
     {
         $to_delete = offer::findOrFail($offer);
         $to_delete->delete();

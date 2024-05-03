@@ -24,6 +24,8 @@ class CreateReservationsTable extends Migration
             $table->Integer('number_people');
             $table->string('birth_certificate')->nullable();
             $table->string('passport')->nullable(); 
+            $table->string('offer_type')->nullable();
+            $table->boolean('approved')->default(false);
             $table->timestamps();
             $table->unsignedBigInteger('user_id'); 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -9,17 +9,38 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\StripeController;
 
-/*use App\Http\Controllers\EmailController;
-use  App\Http\Controllers\ReportsController;
-*/
 
 Route::get('/', [StaticController::class, 'index'] )->name('home.index') ;
 Route::get('/request-sent', [StaticController::class, 'request_sent'] )->name('home.request-sent')->middleware('redirectIfDirectAccess') ;
 Route::get('/about', [StaticController::class, 'about'] )->name('home.about')->middleware('redirectIfDirectAccess');
 Route::resource('contacts', ContactsController::class );
 Route::resource('offers', OffersController::class )->middleware('redirectIfDirectAccess');
-Route::resource('reservations', ReservationsController::class )->middleware('redirectIfDirectAccess');
-Route::get('/reservations/download/{imagePath}', [ReservationsController::class, 'downloadImage'])->name('reservations.downloadImage');
+Route::resource('reservations', ReservationsController::class )->middleware('redirectIfDirectAccess') ;
+
+Route::get('reservations/{id}/approve', [ReservationsController::class, 'approve'])
+    ->name('reservations.approve')
+    ->middleware('auth'); // تأكد من حماية المسار
+
+Route::get('reservations/{id}/reject', [ReservationsController::class, 'reject'])
+    ->name('reservations.reject')
+    ->middleware('auth'); // تأكد من حماية المسار
+
+Route::get('admin/notifications', [ReservationsController::class, 'notifications'])
+    ->name('admin.notifications')
+    ->middleware('auth'); 
+    
+Route::post('admin/notifications/{id}/mark-as-read', [ReservationsController::class, 'markAsRead'])
+    ->name('admin.notifications.markAsRead')
+    ->middleware('auth'); 
+
+Route::delete('admin/notifications/{id}', [ReservationsController::class, 'destroyNotifications'])
+    ->name('admin.notifications.destroy')
+    ->middleware('auth'); 
+
+Route::get('payment/{offer_id}', [ReservationsController::class, 'paymentPage'])
+    ->name('reservations.payment')
+    ->middleware('auth');
+
 
 Route::middleware('auth')->group(function(){
     Route::get('/my-account',[UserController::class,'index'])->name('user.index');
@@ -28,15 +49,9 @@ Route::middleware('auth')->group(function(){
 Route::middleware(['auth','auth.admin'])->group(function(){
     Route::get('/admin',[AdminController::class,'index'])->name('admin.index');
 });
-/* Route::get('/email_form', [StaticController::class, 'email_form'])->name('home.email_form');
-
-Route::post('/send-email', [EmailController::class, 'sendEmail'])->name('send.email'); */
 
 Auth::routes();
 
-/* Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); */
-/* Route::post('/fake-payment', [FakePaymentController::class, 'processPayment']);*/
-
-Route::get('/checkout', 'App\Http\Controllers\StripeController@checkout')->name('checkout');
+Route::get('/checkout', [StripeController::class, 'checkout'])->name('checkout');
 Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
 Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');

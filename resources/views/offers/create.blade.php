@@ -3,9 +3,8 @@
 @section('container')
 
 <div class="form-container">
-
-   <form action="{{route('offers.store')}}" method="POST" >
-      @csrf
+   <form action="{{ route('offers.store') }}" method="POST" enctype="multipart/form-data">
+      @csrf   
       <h3>اضافة عرض جديد</h3>     
       <input type="text" name="title" required placeholder="العنوان">
       <div class="hotel">
@@ -36,17 +35,26 @@
 
       <input type="text" name="airport_2" required placeholder="الخطوط ">
       <input type="text" name="airport_1" required placeholder="مطار الدخول">
-      <input type="text" name="discription" required placeholder="تفاصيل خفيفة">
-      <div>
+      <input type="text" name="description" required placeholder="تفاصيل خفيفة">
+      
+       <div>
          <label class="btn-file">
             <span>صورة</span>
             <input type="file" name="image" class="hidden" required >
          </label>
       </div>
+
       <input type="submit" name="submit" value="اضافة" class="form-btn">
+      
+      @if($errors->any())
+         <div class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+                  <p>{{ $error }}</p>
+            @endforeach
+         </div>
+      @endif
+
    </form>
-
 </div>
-
 @endsection
 

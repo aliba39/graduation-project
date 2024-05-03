@@ -1,30 +1,44 @@
-@extends('layout')
+@extends('layout') <!-- افترض أن لديك تخطيطًا أساسيًا -->
+
 @section('content')
+<div class="container my-5">
+    <h2 class="mb-4">الحجوزات</h2>
 
-<div class="reserv" >
-    @if (count($reservations) > 0)
-        <div class="flex justify-center sm:pt-0">
-        <h1>الحجوزات</h1>
-        </div>
-
-        <div class="card-container">
-            @foreach ($reservations as $reservation)
-            <div class="container">
-                <a class="card" href="{{route('reservations.show', ['reservation' => $reservation['id']])}}">
-                        طلب جديد
-                </a>
-                <form action="{{route('reservations.destroy', $reservation->id)}}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <input class="delete" type="submit" value="delete">
-                </form>
-            </div>
-            @endforeach 
-        </div>
-        @else
-        <div class="flex justify-center sm:pt-0">
-            <h1>لا يوجد حجوزات حاليا</h1>
-        </div>
+    @if ($reservations->isEmpty())
+        <div class="alert alert-info">لا يوجد طلبات جديدة.</div> <!-- تباين لعدم وجود إشعارات -->
+    @else
+        <table class="table table-hover"> <!-- جدول مع تنسيق Bootstrap -->
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>تاريخ الإرسال</th>
+                    <th>الإجراءات</th> <!-- عمود للإجراءات -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($reservations as $reservation)
+                    <tr>
+                        <td>تم انشاء طلب حجز جديد</td>
+                        <td>{{ $reservation->created_at->format('Y-m-d H:i:s') }}</td>
+                        <td>
+                            <form action="{{route('reservations.edit', $reservation->id)}}" method="" style="display:inline-block">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-secondary ">تعديل</button>
+                            </form>
+                            <form action="{{route('reservations.show', ['reservation' => $reservation['id']])}}" method="" style="display:inline-block">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-success">عرض</button>
+                            </form>
+                            <form action="{{route('reservations.destroy', $reservation->id)}}" method="POST" style="display:inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">حذف</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     @endif
 </div>
 @endsection
