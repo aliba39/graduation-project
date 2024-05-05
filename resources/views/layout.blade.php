@@ -156,7 +156,7 @@
                                                 @auth
                                                     @if (Auth::user()->utype === 'ADM')
                                                         <a class="nav-link" href="{{ route('offers.create') }}">اضافة عرض</a>
-                                                        <a class="nav-link" href="{{ route('reservations.index') }}">قائمة الطلبات</a>
+                                                        <a class="nav-link" href="{{ route('reservations.index') }}">الحجوزات</a>
                                                         <a class="nav-link" href="{{ route('admin.index') }}">صفحتي</a>
                                                     @else
                                                         <a class="nav-link" href="{{ route('user.index') }}">صفحتي</a>

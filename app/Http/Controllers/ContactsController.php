@@ -7,23 +7,23 @@ use App\Models\Contact;
 
 class ContactsController extends Controller
 {
-/*----------------------------------------------------------------*/
-    public function index()
+/* ------------------------------------------------------------------------------------------ */
+public function index()
     {
         return view('contacts.index', ['contacts' => Contact::all()]);
     }
-/*----------------------------------------------------------------*/
-    public function create()
+/* ------------------------------------------------------------------------------------------ */
+public function create()
     {
         return view('contacts.create');
     }
-/*----------------------------------------------------------------*/
-    public function store(Request $request)
+/* ------------------------------------------------------------------------------------------ */
+public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
             'email' => 'required',
-            'phone_number' => ['required', 'integer', 'max:10', 'min:10'],
+            'phone_number' => ['required', 'string', 'max:10'],
             'message' => ['required','string'],
         ]);
         
@@ -39,18 +39,18 @@ class ContactsController extends Controller
         return redirect()->route('contacts.create');
 
     }
-/*----------------------------------------------------------------*/
-    public function show($Contact)
+/* ------------------------------------------------------------------------------------------ */
+public function show($Contact)
     {
         return view('contacts.show', ['contact' => Contact::findOrFail($Contact)]);
     }
-    /* ---------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------ */
     public function edit($Contact)
     {
         return view('contacts.edit', ['contact' => Contact::findOrFail($Contact)]);
     }
-    /* ---------------------------------------------------------- */
-    public function update(Request $request, $Contact)
+/* ------------------------------------------------------------------------------------------ */
+public function update(Request $request, $Contact)
     {
         $request->validate([
             'name' => 'required',
@@ -70,12 +70,12 @@ class ContactsController extends Controller
         
         return redirect()->route('contacts.show', $Contact);
     }
-    /* ---------------------------------------------------------- */
-    public function destroy($Contact)
+/* ------------------------------------------------------------------------------------------ */
+public function destroy($Contact)
     {
         $to_delete = Contact::findOrFail($Contact);
         $to_delete->delete();
         return redirect()->route('contacts.index');
     }
-/*----------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------------ */
 }

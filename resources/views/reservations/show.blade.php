@@ -80,6 +80,7 @@
     <p>عنوان العرض: {{ $reservation->offer->title }}</p>
     <p>سعر العرض 12: {{ $reservation->offer->prix_12 }}</p>
     <p>سعر العرض 13: {{ $reservation->offer->prix_13 }}</p>
+    <p>سعر العرض 14: {{ $reservation->offer->prix_14 }}</p>
     <!-- معلومات أخرى من العرض -->
 @else
     <p>لا يوجد عرض مرتبط بهذا الحجز</p>

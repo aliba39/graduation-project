@@ -1,18 +1,18 @@
-@extends('layout') <!-- افترض أن لديك تخطيطًا أساسيًا -->
-
+@extends('layout')
+@section('title', 'الحجوزات')
 @section('content')
 <div class="container my-5">
     <h2 class="mb-4">الحجوزات</h2>
 
     @if ($reservations->isEmpty())
-        <div class="alert alert-info">لا يوجد طلبات جديدة.</div> <!-- تباين لعدم وجود إشعارات -->
+        <div class="alert alert-info">لا يوجد طلبات جديدة.</div> <
     @else
-        <table class="table table-hover"> <!-- جدول مع تنسيق Bootstrap -->
+        <table class="table table-hover"> 
             <thead>
                 <tr>
                     <th>#</th>
                     <th>تاريخ الإرسال</th>
-                    <th>الإجراءات</th> <!-- عمود للإجراءات -->
+                    <th>الإجراءات</th> 
                 </tr>
             </thead>
             <tbody>

@@ -1,5 +1,5 @@
 @extends('layout') 
-
+@section('title', 'صفحتي')
 @section('content')
 <div class="container my-5">
     <h1 class="mb-4">لوحة الإدارة</h1> 

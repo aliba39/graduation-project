@@ -1,16 +1,5 @@
 @extends('layout')
 
-{{-- @section('')
-<div class="headerhome-content">
-    <div class="allthem">
-        <div class="them">
-            <h1 itemprop="headline" > عروض العمرة</h1>
-        </div>
-    </div>
-
-</div>
-@endsection  --}}
-
 @section('title', 'عروض العمرة')
 @section('content')
 

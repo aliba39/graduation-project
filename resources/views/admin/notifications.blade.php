@@ -1,5 +1,6 @@
-@extends('layout') <!-- افترض أن لديك تخطيطًا أساسيًا -->
+@extends('layout') 
 
+@section('title', 'الاشعارات')
 @section('content')
 <div class="container my-5">
     <h2 class="mb-4">إشعارات الحجوزات</h2>

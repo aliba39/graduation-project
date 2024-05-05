@@ -1,4 +1,6 @@
 @extends('layout')
+
+@section('title', 'اٍنشاء حساب جديد')
 @section('content')
 
 </head>

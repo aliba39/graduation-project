@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-@section('title', 'تفاصيل الطلب')
+@section('title', 'تفاصيل الرسالة')
 <div class="flex justify-center items-center bg-gray-100 border-gray-200" style="flex-direction: column;">
     <div class="flex justify-center sm:pt-0" style="color: rgb(252, 175, 44);">
         <h1>تفاصيل الرسالة</h1>

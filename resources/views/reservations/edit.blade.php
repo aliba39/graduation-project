@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-@section('title', 'حجز العرض')
+@section('title', 'تعديل الحجز')
 <div class="form-container">
 
    <form action="{{route('reservations.update', ['reservation' => $reservation->id])}}" method="PUT" enctype="multipart/form-data" >
