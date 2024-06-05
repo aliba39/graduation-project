@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('has_new_notification')->default(false);
             $table->string('utype')->default('USR')->comment('ADM for Admin and USR for User or Customer');
             $table->rememberToken();
             $table->timestamps();

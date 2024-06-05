@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('title', 'عرض جديد')
 @section('container')
 
@@ -33,8 +33,8 @@
          
       </div>
 
-      <input type="text" name="airport_2" required placeholder="الخطوط ">
-      <input type="text" name="airport_1" required placeholder="مطار الدخول">
+      <input type="text" name="airport_2" required placeholder="مطار الدخول ">
+      <input type="text" name="airport_1" required placeholder="الخطوط الجوية">
       <input type="text" name="description" required placeholder="تفاصيل خفيفة">
       
        <div>

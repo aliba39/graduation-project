@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('title', 'عرض تفاصيل العرض')
 
 @section('content')
@@ -24,9 +24,8 @@
 								<table class="responsive-card-table unstriped">
 									<thead>
 										<tr>
-											<th><span>السكـن بمـكة <br> 07 ليالي</span></th>
-											<th><span>السكـن بالمـدينة <br> 04 ليالي</span></th>
-											<th><span>السكـن بمـكة <br> 05 ليالي</span></th>
+											<th><span>السكـن بمـكة </span></th>
+											<th><span>السكـن بالمـدينة </span></th>
 											<th><span>الثنائي</span></th>
 											<th><span>الثلاثي</span></th>
 											<th><span>الرباعي</span></th>
@@ -42,81 +41,16 @@
 												<span class="black">{{ $offer['hotel_2']}}
 												</span>
 											</td>
-											<td data-label="السـكن بمـكة">
-												<span class="black">{{ $offer['hotel_1']}}
-												
-												</span>
-											</td>
 											<td data-label="الثنائي">
-												<span class="black">{{ $offer['prix_12']}}دينار</span>
+												<span class="black">{{ $offer['prix_12']}} دينار</span>
 											</td>
 											<td data-label="الثلاثي">
-												<span class="black">{{ $offer['prix_13']}}دينار</span>
+												<span class="black">{{ $offer['prix_13']}} دينار</span>
 											</td>
 											<td data-label="الرباعي">
-												<span class="black">{{ $offer['prix_14']}}دينار</span>
+												<span class="black">{{ $offer['prix_14']}} دينار</span>
 											</td>
 										</tr>
-
-										{{-- <tr>
-											<td data-label="السـكن بمـكة">
-												<span class="black"> {{ $offer['hotel_2']}}
-												</span>
-											</td>
-											<td data-label="السكن بالـمدينة">
-												<span class="black">مجموعة وان
-													أو ما يعادله<br>
-													( بدون وجبات )
-												</span>
-											</td>
-											<td data-label="السـكن بمـكة">
-												<span class="black">فندق ضيافة الرجاء
-													( بدون وجبات )
-												</span>
-											</td>
-											<td data-label="الثنائي">
-												<span class="black">{{ $offer['prix_22']}}دينار</span>
-												<a href="{{ route('reservations.create') }}" class="btn btn-primary bt">احجز</a>
-											</td>
-											<td data-label="الثلاثي">
-												<span class="black">{{ $offer['prix_23']}}دينار</span>
-												<a href="{{ route('reservations.create') }}" class="btn btn-primary bt">احجز</a>
-											</td>
-											<td data-label="الرباعي">
-												<span class="black">{{ $offer['prix_24']}}دينار</span>
-												<a href="{{ route('reservations.create') }}" class="btn btn-primary bt">احجز</a>
-											</td>
-										</tr>
-
-										<tr>
-											<td data-label="السـكن بمـكة">
-												<span class="black">{{ $offer['hotel_3']}}
-												</span>
-											</td>
-											<td data-label="السكن بالـمدينة">
-												<span class="black">مجموعة وان
-													أو ما يعادله<br>
-													( بدون وجبات )
-												</span>
-											</td>
-											<td data-label="السـكن بمـكة">
-												<span class="black">فندق رمادا دار الفائزين
-													( بدون وجبات )
-												</span>
-											</td>
-											<td data-label="الثنائي">
-												<span class="black">{{ $offer['prix_32']}}دينار</span>
-												<a href="{{ route('reservations.create') }}" class="btn btn-primary bt">احجز</a>
-											</td>
-											<td data-label="الثلاثي">
-												<span class="black">{{ $offer['prix_33']}}دينار</span>
-												<a href="{{ route('reservations.create') }}" class="btn btn-primary bt">احجز</a>
-											</td>
-											<td data-label="الرباعي">
-												<span class="black">{{ $offer['prix_34']}}دينار</span>
-												<a href="{{ route('reservations.create') }}" class="btn btn-primary bt">احجز</a>
-											</td>
-										</tr> --}}
 									</tbody>
 								</table>
 							</div>
@@ -152,12 +86,8 @@
 											<th><span>تاريخ الذهاب</span></th>
 											<th><span>مطار الوصول</span></th>
 											<th><span>تاريخ العودة</span></th>
-											<th><span>السكن بمكة
-													08 ليالي
-                                                </span></th>
-											<th><span>السكن بالمدينة
-													04 ليالي
-												</span></th>
+											<th><span>السكن بمكة</span></th>
+											<th><span>السكن بالمدينة</span></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -168,11 +98,11 @@
 											<td data-label="مطار الوصول"><span class="black">{{ $offer['airport_2']}}</span></td>
 											<td data-label="العودة"><span class="black">{{ $offer['date_out']}}</span></td>
 											<td data-label="السكن بمكة"><span class="black">مــــن {{ $offer['date_in']}} إلــــى
-												{{ $offer['stay-makh']}}</span></td>
-											<td data-label="السكن بالمدينة"><span class="black">مــــن {{ $offer['stay_makh']}} إلــــى
+												{{ $offer['stay_makh']}}</span></td>
+											{{-- <td data-label="السكن بالمدينة"><span class="black">مــــن {{ $offer['stay_makh']}} إلــــى
 												{{ $offer['stay_madina']}}
 
-												</span></td>
+												</span></td> --}}
 											<td data-label="السكن بمكة"><span class="black">مــــن {{ $offer['stay_madina']}} إلــــى
 												{{ $offer['date_out']}}</span></td> 
 										</tr>

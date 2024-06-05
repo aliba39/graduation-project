@@ -1,18 +1,26 @@
-@extends('layout')
-@section('title','Request-Sent') 
-@section('container') 
-
+@extends('layouts.layout') 
+@section('title', 'تم الحجز بنجاح') 
 @section('content')
-<div class="alert alert-success">
-    @if(Session::has('message'))
-        <div class="alert alert-success">
-            {{ Session::get('message') }}
+
+<div class="container my-5"> 
+    <div class="row justify-content-center">
+        <div class="col-md-8"> 
+            <div class="card text-center">
+                <div class="card-header bg-success text-white"> 
+                    <h2>حجزك تم بنجاح!</h2> 
+                </div>
+                <div class="card-body"> 
+                    <p>شكرًا على حجزك معنا. تم تأكيد حجزك بنجاح.</p>
+                    <p>سيتواصل معك فريق الدعم قريبًا بمزيد من التفاصيل.</p> 
+                    <a href="{{ url('/') }}" class="btn btn-primary">العودة إلى الصفحة الرئيسية</a> 
+                </div>
+            </div>
         </div>
-    @endif
-    <p>
-        لقد تم إرسال طلبكم بنجاح، للمزيد من المعلومات المرجو مراسلتنا على البريد الالكتروني xxx@xxx.com		
-    </p>
-    <a class="btn btn-info" href="{{ route('offers.index') }}">العودة للعروض</a>
-    {{-- <a class="btn btn-warning" href="{{route('reservations.edit', $reservation->id)}}">التعديل على عرضك</a> --}}
+    </div>
 </div>
+<script>
+    setTimeout(function() {
+        window.location.href = "{{ route('home.index') }}";
+    }, 5000); 
+</script>
 @endsection

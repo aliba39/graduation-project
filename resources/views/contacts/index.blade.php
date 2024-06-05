@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('title', 'الرسائل') 
 @section('content')
 <div class="container my-5">

@@ -1,6 +1,7 @@
-@extends('layout')
-@section('content')
+@extends('layouts.layout')
 @section('title', 'تفاصيل الطلب')
+@section('content')
+
 <div class="container mt-5">
     <h2>تفاصيل الحجز</h2> 
 
@@ -43,6 +44,7 @@
                 <td>
                     @if($reservation->birth_certificate)
                         <a class="btn btn-secondary" href="{{ Storage::url($reservation->birth_certificate) }}" target="_blank">عرض</a> 
+                        <a class="btn btn-secondary" href="{{ Storage::url($reservation->birth_certificate) }}" download>تحميل</a>
                     @else
                         لم يتم رفع شهادة ميلاد
                     @endif
@@ -53,6 +55,7 @@
                 <td>
                     @if($reservation->passport)
                         <a class="btn btn-secondary" href="{{ Storage::url($reservation->passport) }}" target="_blank">عرض</a>  
+                        <a class="btn btn-secondary" href="{{ Storage::url($reservation->birth_certificate) }}" download>تحميل</a>
                     @else
                         لم يتم رفع جواز سفر
                     @endif
@@ -66,25 +69,70 @@
     </table>
     <div class="flex justify-center ">
         <div class="my-4">
-            @if (Auth::user()->utype === 'ADM')
-            <a href="{{ route('reservations.approve', $reservation->id) }}" class="btn btn-success">الموافقة</a>
-            <a href="{{ route('reservations.reject', $reservation->id) }}" class="btn btn-danger">الرفض</a>
+            @if(Auth::user()->utype === 'ADM')
+                <div class="mt-4">
+                    <button id="approve-btn" class="btn btn-success">الموافقة</button>
+                    <button id="reject-btn" class="btn btn-danger">الرفض</button> 
+                </div>
             @else
                 <a class="btn btn-secondary" href="{{route('reservations.edit', $reservation->id)}}">تعديل</a>
+                <button
+                    class="btn btn-success"
+                    id="pay-btn"
+                    onclick="
+                        var approved = {{ json_encode($reservation->approved) }};
+                        if (!approved) {
+                            alert('لا يمكنك الآن الدفع حتى تتم الموافقة على الحجز.');
+                            return false;
+                        }
+                        window.location.href = '{{ route('reservations.paymentPage', ['reservation_id' => $reservation->id]) }}';
+                    "
+                >
+                    الدفع
+                </button>
+
             @endif
-        </div>
+        </div> 
     </div>
 </div>
-@if ($reservation->offer) <!-- تحقق من وجود علاقة -->
-    <h3>تفاصيل العرض</h3>
-    <p>عنوان العرض: {{ $reservation->offer->title }}</p>
-    <p>سعر العرض 12: {{ $reservation->offer->prix_12 }}</p>
-    <p>سعر العرض 13: {{ $reservation->offer->prix_13 }}</p>
-    <p>سعر العرض 14: {{ $reservation->offer->prix_14 }}</p>
-    <!-- معلومات أخرى من العرض -->
-@else
-    <p>لا يوجد عرض مرتبط بهذا الحجز</p>
-@endif
+
+<script>
+    document.getElementById('approve-btn').addEventListener('click', function() {
+        if (confirm('هل أنت متأكد من الموافقة على هذا الحجز؟')) {
+            fetch("{{ route('reservations.approve', $reservation->id) }}", {
+                method: 'POST', 
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}', 
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('تمت الموافقة على الحجز');
+                    location.reload(); 
+                } else {
+                    throw new Error('خطأ أثناء الموافقة على الحجز');
+                }
+            })
+        }
+    }); 
 
 
-@endsection
+    document.getElementById('reject-btn').addEventListener('click', function() {
+        if (confirm('هل أنت متأكد من رفض هذا الحجز؟')) {
+            fetch("{{ route('reservations.reject', $reservation->id) }}", {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('تم رفض الحجز');
+                    window.location.href = "{{ route('reservations.index') }}"; 
+                }
+            });
+        }
+    });
+</script>
+
+@endsection 

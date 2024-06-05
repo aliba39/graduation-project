@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('title', 'الصفحة الرئيسية') 
 
 @section('container')
@@ -6,23 +6,18 @@
 <div class="headerhome-content">
     <div class="allthem">
         <div class="them">
-            <h1 itemprop="headline">برامج الحج و العمرة<br> لموسم : 1445 هـ 2024 م</h1>
+            <h1 itemprop="headline">مرحبا بك في موقعنا<br>نحن نقدم أفضل الخدمات للعمرة والحج.</h1>
         </div>
     </div>
 
     <div class="callactions">
-        <a href="" class="ordernow">تفاصيل العرض</a>
+        <a href="" class="ordernow">تفاصيل اكثر</a>
         <a href="{{ route('offers.index') }}" class="ordernow">جميع العروض</a>
     </div>
 </div>
 @endsection 
 
 @section('content')
-@if(Session::has('message'))
-        <div class="alert alert-success">
-            {{ Session::get('message') }}
-        </div>
-    @endif
 <div style="background-color: #000000;">
 <section class="offers-and-abouts">
     <div class="about-umrah-travel sectionp">

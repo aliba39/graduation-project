@@ -10,10 +10,10 @@ class CreateReservationNotificationsTable extends Migration
     {
         Schema::create('reservation_notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('reservation_id'); // ربط الإشعار بالحجز
-            $table->unsignedBigInteger('user_id'); // ربط الإشعار بالمستخدم (مثل admin)
-            $table->string('message'); // رسالة الإشعار
-            $table->boolean('is_read')->default(false); // علامة لقراءة الإشعار
+            $table->unsignedBigInteger('reservation_id'); 
+            $table->unsignedBigInteger('user_id'); 
+            $table->string('message'); 
+            $table->boolean('is_read')->default(false); 
             $table->timestamps();
         });
     }

@@ -1,17 +1,45 @@
-@extends('layout')
-@section('content')
+@extends('layouts.layout')
 @section('title', 'تفاصيل الرسالة')
-<div class="flex justify-center items-center bg-gray-100 border-gray-200" style="flex-direction: column;">
-    <div class="flex justify-center sm:pt-0" style="color: rgb(252, 175, 44);">
-        <h1>تفاصيل الرسالة</h1>
-    </div>
+@section('content')
 
-    <div class="info">
-        <h3><strong>الاسم : </strong>{{ $contact['name']}}</h3>
-        <h3><strong>رقم الهاتف : </strong>{{ $contact['phone_number']}}</h3>
-        <h3><strong>البريد الالكتروني : </strong>{{$contact['email']}}</h3>
-        <h3><strong>الرسالة  : </strong>{{ $contact['message']}}</h3>
-        <h3><strong>التاريخ  : </strong>{{ $contact['created_at']}}</h3>
+<div class="container my-5">
+    <h1 class="text-center">تفاصيل الرسالة</h1> 
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card"> 
+                <div class="card-header">
+                    <h3>تفاصيل الاتصال</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered"> 
+                        <tbody>
+                            <tr>
+                                <th>الاسم</th>
+                                <td>{{ $contact['name'] }}</td>
+                            </tr>
+                            <tr>
+                                <th>رقم الهاتف</th>
+                                <td>{{ $contact['phone_number'] }}</td>
+                            </tr>
+                            <tr>
+                                <th>البريد الإلكتروني</th>
+                                <td>{{ $contact['email'] }}</td> 
+                            </tr>
+                            <tr>
+                                <th>الرسالة</th>
+                                <td>{{ $contact['message'] }}</td> 
+                            </tr>
+                            <tr>
+                                <th>التاريخ</th>
+                                <td>{{ $contact['created_at'] }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
 @endsection

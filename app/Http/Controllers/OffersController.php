@@ -11,7 +11,7 @@ class OffersController extends Controller
     public function index()
     {
         return view('offers.index', ['offers' => offer::all()]);
-
+        
     }
     //-----------------------------------------------------------------
     public function create()
@@ -108,7 +108,7 @@ class OffersController extends Controller
             $originalName = $request->file('image')->getClientOriginalName(); 
             $path = $request->file('image')->storeAs('images', $originalName, 'public'); 
             $to_update->image = $path; 
-        }
+        } 
         $to_update->stay_makh = strip_tags($request->input('stay_makh')); 
         $to_update->stay_madina = strip_tags($request->input('stay_madina')); 
         $to_update->date_in = strip_tags($request->input('date_in')); 

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="https://scontent.fogx1-1.fna.fbcdn.net/v/t39.30808-6/316541285_129037063300324_5412570035277399260_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8-66ZkO-m70Ab7gEt1_&_nc_ht=scontent.fogx1-1.fna&oh=00_AfBGFRkgfXgI6izbAMKeH172p_Fv5xh8NeQNS_8BxughUg&oe=66152935">
+        <link rel="icon" href="#">
         <title>@yield('title')</title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-rtl@3.4.0/dist/css/bootstrap-rtl.min.css">
@@ -149,7 +149,7 @@
                                         </div>
                                     @else
                                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {{ Auth::user()->name }} <i class="fa-light fa-user"></i>
+                                            {{ Auth::user()->name }} <i class="fa fa-user"></i>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             @if(Route::has('login'))
@@ -174,9 +174,17 @@
                                         </div>
                                     @endguest    
                                 </li>
+                                @if(Route::has('login'))
+                                    @auth
+                                        <li class="nav-item d-flex align-items-center">
+                                            <a class="nav-link notification-link" href="{{ route('notifications') }}">
+                                                <i class="fa fa-bell notification-icon" id="notificationIcon"></i>
+                                            </a>
+                                        </li>
+                                    @endauth
+                                @endif
                             </ul>
                         </div>
-
                     </div>
                 </nav>
                 
@@ -204,10 +212,10 @@
                         <p>رقم الهاتف: 123456789</p>
                         <!-- Social media icons -->
                         <div class="footer-social-icons">
-                            <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
-                            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                            <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
-                            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                            <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
                             <!-- Add more social media icons as needed -->
                         </div>
                     </div>
@@ -215,7 +223,8 @@
             </footer>
             <!--End Footer -->
         </div>    
-        <script src="{{ asset('./js/script.js') }}"></script>
+        <script src="{{ asset('js/script.js') }}"></script>
+
         <!-- Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
@@ -225,63 +234,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
-        
-
-
-{{-- <script>
-
-document.getElementById('approveBtn').addEventListener('click', function() {
-    // Create a new page content
-    var pageContent = `
-        <h1>Welcome to My Page</h1>
-        <p>This is some content of the page...</p>
-        <p>Feel free to add any content you like!</p>
-    `;
-
-    // Get the content container
-    var contentContainer = document.getElementById('contentContainer');
-
-    // Replace the content with the new page content
-    contentContainer.innerHTML = pageContent;
-});
-
-document.getElementById('rejectBtn').addEventListener('click', function() {
-    // Create a new page content
-    var pageContent = `
-        <h1>Welcome to My Page 2</h1>
-        <p>This is some content of the page...</p>
-        <p>Feel free to add any content you like!</p>
-    `;
-
-    // Get the content container
-    var contentContainer = document.getElementById('contentContainer');
-
-    // Replace the content with the new page content
-    contentContainer.innerHTML = pageContent;
-});
-
-document.getElementById('imageInput').addEventListener('change', function(event) {
-    var file = event.target.files[0];
-    var downloadButton = document.getElementById('downloadButton');
-    
-    if (file && file.type.startsWith('image/')) {
-        downloadButton.disabled = false;
-        downloadButton.addEventListener('click', function() {
-            var imageUrl = URL.createObjectURL(file);
-            var a = document.createElement('a');
-            a.href = imageUrl;
-            a.download = 'image.png';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(imageUrl);
-        });
-    } else {
-        downloadButton.disabled = true;
-        alert('Please select an image file.');
-    }
-});
-</script> --}}
 
     </body>
 </html>

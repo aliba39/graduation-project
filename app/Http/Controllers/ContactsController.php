@@ -19,26 +19,26 @@ public function create()
     }
 /* ------------------------------------------------------------------------------------------ */
 public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'phone_number' => ['required', 'string', 'max:10'],
-            'message' => ['required','string'],
-        ]);
-        
-        $contact = new contact();
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email',
+        'phone_number' => ['required', 'regex:/^(\+213|0)(5|6|7)[0-9]{8}$/'],
+        'message' => 'required|string',
+    ]);
+    
+    $contact = new Contact();
 
-        $contact->name = strip_tags($request->input('name')); 
-        $contact->email = strip_tags($request->input('email')); 
-        $contact->phone_number = strip_tags($request->input('phone_number')); 
-        $contact->message = strip_tags($request->input('message')); 
-        
-        $contact -> save();
+    $contact->name = strip_tags($request->input('name')); 
+    $contact->email = strip_tags($request->input('email')); 
+    $contact->phone_number = strip_tags($request->input('phone_number')); 
+    $contact->message = strip_tags($request->input('message')); 
+    
+    $contact->save();
 
-        return redirect()->route('contacts.create');
+    return response()->json(['success' => 'تم إرسال الرسالة بنجاح!']);
+}
 
-    }
 /* ------------------------------------------------------------------------------------------ */
 public function show($Contact)
     {

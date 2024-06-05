@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.layout')
 
 @section('title', 'عروض العمرة')
 @section('content')
@@ -13,7 +13,7 @@
                     <div class="cause-box ">
                         <div class="cause-thmb">
                             <a  href="{{route('offers.show', ['offer' => $offer['id']])}}" title="" itemprop="url">
-                                <img src="{{ $offer['image']}}" class="image-hajj">
+                                <img src="./{{ $offer['image']}}" class="image-hajj">
                             </a>
                         </div>
                         <div class="cause-inf">
@@ -27,7 +27,7 @@
                             <div class="prg-wrp">
                                 <div class="progress brd-rd5">
                                     <div class="progress-bar w100 theme-bg">
-                                        <span class="brd-rd50 theme-bg"><a href="{{route('offers.show', ['offer' => $offer['id']])}}">المزيد</a></span>
+                                        <a class="btn btn-file" href="{{route('offers.show', ['offer' => $offer['id']])}}">المزيد</a>
                                     </div>
                                 </div>
                                 <span>

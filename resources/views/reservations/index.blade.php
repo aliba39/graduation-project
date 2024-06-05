@@ -1,11 +1,11 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('title', 'الحجوزات')
 @section('content')
 <div class="container my-5">
     <h2 class="mb-4">الحجوزات</h2>
 
     @if ($reservations->isEmpty())
-        <div class="alert alert-info">لا يوجد طلبات جديدة.</div> <
+        <div class="alert alert-info">لا يوجد طلبات جديدة.</div>
     @else
         <table class="table table-hover"> 
             <thead>

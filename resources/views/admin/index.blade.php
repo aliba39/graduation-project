@@ -1,4 +1,4 @@
-@extends('layout') 
+@extends('layouts.layout')
 @section('title', 'صفحتي')
 @section('content')
 <div class="container my-5">
@@ -18,7 +18,7 @@
             <div class="card"> 
                 <div class="card-body">
                     <h2 class="card-title">الحجوزات</h2> 
-                    <a href="{{ route('admin.notifications') }}" class="btn btn-primary">عرض الحجوزات</a> 
+                    <a href="{{ route('reservations.index') }}" class="btn btn-primary">عرض الحجوزات</a> 
                 </div>
             </div>
         </div>

@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Offer;
 use App\Models\ReservationNotification;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Reservation;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationsController extends Controller
 {
@@ -55,61 +56,41 @@ class ReservationsController extends Controller
 /*--------------------------------------------------------------------------------------------------*/ 
     public function store(Request $request)
     {
+        // Validate the request
         $request->validate([
             'first_name' => 'required|string|max:255',
             'family_name' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:15',
+            'phone_number' => ['required', 'regex:/^(\+213|0)(5|6|7)[0-9]{8}$/'],
             'address' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
-            'number_people' => 'required|integer',
+            'number_people' => 'required|integer|between:1,4',
             'birth_certificate' => 'nullable|image|max:2048',
             'passport' => 'nullable|image|max:2048',
             'offer_type' => 'required|string|max:255',
             'offer_id' => 'required|exists:offers,id',
         ]);
 
+        // Create and save the reservation
         $reservation = new Reservation();
         $this->setReservationAttributes($reservation, $request);
         $reservation->user_id = auth()->user()->id;
-
         $reservation->save(); 
 
-        ReservationNotification::create([
-            'reservation_id' => $reservation->id,
-            'user_id' => 1, 
-            'message' => 'تم إنشاء حجز جديد.',
-        ]);
-
-        Session::flash('message', 'تم إرسال طلبكم بنجاح ');
-
+        // Notify the admin user
+        $adminUser = User::where('utype', 'ADM')->first();
+        if ($adminUser) {
+            $adminUser->has_new_notification = true;
+            $adminUser->save();
+    
+            ReservationNotification::create([
+                'reservation_id' => $reservation->id,
+                'user_id' => $adminUser->id,
+                'message' => 'تم إنشاء حجز جديد.',
+            ]);
+        }
+        // Redirect to the request-sent page
         return redirect('request-sent');
-    }
-/*--------------------------------------------------------------------------------------------------*/
-    public function notifications()
-    {
-        // جلب الإشعارات غير المقروءة للمستخدم
-        $notifications = ReservationNotification::where('user_id', 1) // افترض أن admin هو المستخدم رقم 1
-                                            ->where('is_read', false)
-                                            ->get();
-
-        return view('admin.notifications', ['notifications' => $notifications]);
-    }
-/*--------------------------------------------------------------------------------------------------*/
-public function destroyNotifications($id)
-    {
-        $notification = ReservationNotification::findOrFail($id);
-        $notification->delete();
-
-        return redirect()->route('admin.notifications'); 
-    }
-/*--------------------------------------------------------------------------------------------------*/
-    public function markAsRead($id)
-    {
-        $notification = ReservationNotification::findOrFail($id);
-        $notification->is_read = true;
-        $notification->save();
-        return redirect()->route('admin.notifications'); 
     }
 /*--------------------------------------------------------------------------------------------------*/
     public function show($reservation)
@@ -117,34 +98,118 @@ public function destroyNotifications($id)
         return view('reservations.show', ['reservation' => reservation::findOrFail($reservation)]);
     }
 /*--------------------------------------------------------------------------------------------------*/
-    public function approve($id)
+    public function approve(Request $request, $reservation_id)
     {
-        $reservation = Reservation::findOrFail($id); 
-        $reservation->approved = true; 
-        $reservation->save(); 
-        session()->flash('success', 'تمت الموافقة على حجزك. يرجى المتابعة لصفحة الدفع.');
-        return redirect()->route('reservations.payment', ['offer_id' => $reservation->offer_id]);
+        if (Auth::user()->utype !== 'ADM') {
+            abort(403, 'غير مصرح لك.');
+        }
+
+        $reservation = Reservation::findOrFail($reservation_id);
+        $reservation->approved = true;
+        $reservation->save();
+
+        $user = User::findOrFail($reservation->user_id); 
+        $user->has_new_notification = true;
+        $user->save();
+
+        ReservationNotification::create([
+            'reservation_id' => $reservation->id,
+            'user_id' => $reservation->user_id, 
+            'message' => 'تم الموافقة على حجزك يمكنك الدفع الان',
+        ]);
+
+        return response()->json(['status' => 'success']); 
     }
 /*--------------------------------------------------------------------------------------------------*/
-    public function reject($id)
+    public function reject($reservation_id)
     {
-        $reservation = Reservation::findOrFail($id); 
-        $reservation->delete(); 
-        session()->flash('error', 'تم رفض حجزك. نعتذر عن الإزعاج.');
-        return redirect()->route('reservations.index');
+        if (Auth::user()->utype !== 'ADM') {
+            abort(403, 'غير مصرح لك.');
+        }
+
+        $reservation = Reservation::findOrFail($reservation_id);
+        $reservation->delete();
+
+        $user = User::findOrFail($reservation->user_id);
+        $user->has_new_notification = true;
+        $user->save();
+
+        ReservationNotification::create([
+            'reservation_id' => $reservation_id,
+            'user_id' => $reservation->user_id, 
+            'message' => 'تم رفض حجزك ',
+        ]);
+        return response()->json(['status' => 'success']); 
     }
 /*--------------------------------------------------------------------------------------------------*/
-    public function paymentPage($offer_id)
+    public function paymentPage(Request $request, $reservation_id)
     {
-        $offer = Offer::findOrFail($offer_id); 
-        return view('reservations.payment', ['offer' => $offer]); 
+        $reservation = Reservation::findOrFail($reservation_id); 
+        return view('reservations.paymentPage', ['reservation' => $reservation]);
     }
 /*--------------------------------------------------------------------------------------------------*/
-    public function edit($reservation)
+    public function reservation_notifications(Request $request)
     {
-       return view('reservations.edit', ['reservation' => reservation::findOrFail($reservation)]); 
+        $user = $request->user();
+
+        if ($user->utype !== 'ADM' && $user->utype !== 'USR') {
+            return redirect()->route('home.index');
+        }
+
+        $reservation_notifications = ReservationNotification::where('user_id', $user->id)->get();
+        
+
+        return view('notifications.reservation_notifications', ['reservation_notifications' => $reservation_notifications]);
     }
 /*--------------------------------------------------------------------------------------------------*/
+    public function check(Request $request)
+    {
+        return response()->json(['has_new_notification' => $request->user()->has_new_notification]); 
+
+    }
+/*--------------------------------------------------------------------------------------------------*/
+    public function markAsRead($notification_id)
+    {
+        $notification = ReservationNotification::findOrFail($notification_id);
+        $notification->update(['is_read' => true]);
+
+        $user = User::findOrFail($notification->user_id);
+        $hasNewNotifications = ReservationNotification::where('user_id', $user->id)
+                                                    ->where('is_read', false)
+                                                    ->exists();
+        $user->has_new_notification = $hasNewNotifications;
+        $user->save();
+
+        return redirect()->route('notifications')->with('success', 'تم تحديد الإشعار كمقروء بنجاح.');
+    }
+/*--------------------------------------------------------------------------------------------------*/
+    public function destroyNotifications($notification_id)
+    {
+        $notification = ReservationNotification::findOrFail($notification_id);
+        $user_id = $notification->user_id;
+        $notification->delete();
+
+        $user = User::findOrFail($user_id);
+        $hasNewNotifications = ReservationNotification::where('user_id', $user_id)
+                                                    ->where('is_read', false)
+                                                    ->exists();
+        $user->has_new_notification = $hasNewNotifications;
+        $user->save();
+
+        return redirect()->route('notifications')->with('success', 'تم حذف الإشعار بنجاح.');
+
+    }
+/*--------------------------------------------------------------------------------------------------*/
+    public function edit($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+        $offer = Offer::findOrFail($reservation->offer_id); // افتراض أن لديك نموذج عرض مرتبط بالحجز
+
+        return view('reservations.edit', [
+            'reservation' => $reservation,
+            'offer' => $offer
+        ]);
+    }
 /*--------------------------------------------------------------------------------------------------*/
     public function update(Request $request, $reservation)
     {
@@ -185,7 +250,7 @@ public function destroyNotifications($id)
 
         $to_update->save();
         
-        return redirect()->route('reservations.index', $reservation); 
+        return redirect()->route('reservations.show', $reservation); 
     }
 /*--------------------------------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------------------------------*/
@@ -197,3 +262,6 @@ public function destroyNotifications($id)
     }
 
 }
+/*--------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------*/
+    

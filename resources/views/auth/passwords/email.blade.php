@@ -1,5 +1,5 @@
-@extends('layout')
-
+@extends('layouts.layout')
+@section('title', 'اٍعادة تعيين كلمة المرور')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
